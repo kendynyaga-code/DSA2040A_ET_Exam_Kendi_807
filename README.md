@@ -96,3 +96,73 @@ Ensure you have the following installed:
 - Required libraries:
   ```bash
   pip install pandas numpy faker matplotlib
+
+---
+## 6️⃣ 🧾 Sample Outputs
+
+Below are selected outputs showing the ETL process — from raw extraction to final validation.
+
+---
+#### 🧩 1. Extracted Data (Raw Dataset)
+
+After running the **Extract** phase, the `raw_data.csv` file contained over 8,000 rows of student records:
+
+| student_id | name         | gender | age | subject | exam_score | exam_date  | region  | grade_level | school       |
+| ---------- | ------------ | ------ | --- | ------- | ---------- | ---------- | ------- | ----------- | ------------ |
+| 1001       | Alice Kim    | Female | 19  | Math    | 78.5       | 2025-03-10 | Nairobi | Year 1      | Hillcrest HS |
+| 1002       | Brian Otieno | Male   | 20  | Science | 88.0       | 2025-03-11 | Kisumu  | Year 2      | St. Mary’s   |
+
+---
+
+#### 🧮 2. Transform Phase (Validated Data)
+
+After applying data cleaning and validation rules, the **Transform** phase produced the following:
+
+| student_id | name         | gender | age | subject | exam_score | exam_date  | region  | grade_level | school       |
+| ---------- | ------------ | ------ | --- | ------- | ---------- | ---------- | ------- | ----------- | ------------ |
+| 1001       | Alice Kim    | Female | 19  | Math    | 78.50      | 2025-03-10 | Nairobi | Year 1      | Hillcrest HS |
+| 1002       | Brian Otieno | Male   | 20  | Science | 88.00      | 2025-03-11 | Kisumu  | Year 2      | St. Mary’s   |
+
+✅ *All missing values filled, and `exam_date` converted to `datetime`.*
+
+---
+
+ **Transformations applied:**
+- Missing categorical values filled with `"Unknown"`.
+- Converted `exam_date` to `datetime`.
+- Ensured all `exam_score` values between `0–100`.
+- Verified numeric data types (`int64`, `float64`).
+
+---
+
+### 📊 3. Final Validation Summary
+
+Example output from validation checks:
+
+```python
+print(full.shape, inc.shape)
+print(full.dtypes)
+
+ **OUTPUT**
+(9000, 10) (9000, 10)
+student_id         int64
+name              object
+gender            object
+age                int64
+subject           object
+exam_score       float64
+exam_date         datetime64[ns]
+region            object
+grade_level       object
+school            object
+dtype: object
+
+✅ 4. Final Deliverables
+
+Validated datasets ready for loading:
+
+data/validated_full.csv
+
+data/validated_incremental.csv
+
+Each dataset is fully cleaned, validated, and ready for warehouse integration.
